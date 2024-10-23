@@ -5,9 +5,9 @@ import ToolBar from './ToolBar';
 import { draw, drawPolyline } from '../utils/DrawingUtils';
 import './Whiteboard.css';
 
-const socket = io('https://server-repo-production.up.railway.app/');
 
-function Whiteboard() {
+
+function Whiteboard({socket}) {
 	const canvasRef = useRef(null);
 	const [isDrawing, setIsDrawing] = useState(false);
 	const [color, setColor] = useState('#000000');
@@ -16,7 +16,7 @@ function Whiteboard() {
 	const [tool, setTool] = useState('polyline'); // Added tool state, use 'polyline' (free draw) as default
 
 	useEffect(() => {
-		const canvas = canvasRef.current;
+		const canvas = canvasRef.current ;
 		const context = canvas.getContext('2d');
 
 		// Listen for incoming drawing data from other users
@@ -75,7 +75,7 @@ function Whiteboard() {
 		if (!isDrawing) return;
 
 		const canvas = canvasRef.current;
-		const context = canvas.getContext('2d');
+		//const context = canvas.getContext('2d');
 		const rect = canvas.getBoundingClientRect();
 		const x = e.clientX - rect.left;
 		const y = e.clientY - rect.top;

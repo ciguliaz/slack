@@ -6,7 +6,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "*",
     methods: ["GET", "POST"]
   }
 });
@@ -15,7 +15,13 @@ const io = socketIo(server, {
 let whiteboardData = [];
 
 io.on('connection', (socket) => {
-  console.log('New client connected');
+  //Handle Login
+  socket.on("userJoined",(data)=>{
+    const {name, userId, roomId, host, presenter}=data;
+    socket.join(roomId);
+    socket.emit("userIsJoined",{success:true});
+  });
+  //
 
   // Send the shape history to the newly connected client
   socket.emit('history', whiteboardData);
