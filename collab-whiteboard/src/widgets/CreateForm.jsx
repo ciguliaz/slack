@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-const CreateRoomForm = ({ uuid, socket, setUser }) => {
+const CreateRoomForm = ({ uuid, ws, setUser }) => {
    const [roomId, setRoomId] = useState(uuid());
    const [name, setName] = useState("");
    const navigate = useNavigate();
@@ -16,7 +16,7 @@ const CreateRoomForm = ({ uuid, socket, setUser }) => {
       setUser(roomData);
       navigate(`/${roomId}`);
       console.log(roomData);
-      socket.emit("userJoined", roomData);
+      ws.send("userJoined", roomData);
    }
    function copyText() {
       const roomIdElement = document.getElementById('roomId'); // Lấy phần tử input có id "roomId"
