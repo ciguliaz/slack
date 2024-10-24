@@ -12,7 +12,7 @@ export const draw = (context, x0, y0, x1, y1, color, lineWidth) => {
   context.closePath();
 };
 
-export const drawPolyline = (e, canvasRef, isDrawing, color, lineWidth, socket, lastPos, setLastPos) => {
+export const drawPolyline = (e , canvasRef, isDrawing, color, lineWidth, socket, lastPos, setLastPos) => {
   if (!isDrawing) return;
 
   const canvas = canvasRef.current;
