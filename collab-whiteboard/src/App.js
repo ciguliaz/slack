@@ -9,14 +9,15 @@ import Whiteboard from './widgets/Whiteboard';
 //whiteboard-server.railway.internal
 //whiteboard-server
 
-const socket =
-  // io('https://whiteboard-server.up.railway.app/');
-io('http://localhost:4000/');
+// const socket =
+//   // io('https://whiteboard-server.up.railway.app/');
+//   io('http://localhost:4000/');
+const ws= new WebSocket('ws://localhost:4000');
 function App() {
   const [user, setUser] = useState(null);
   useEffect(() => {
-    socket.on("userIsJoined", (data) => {
-      if (data.success) {
+    ws.onmessage("userIsJoined", (data) => {
+      if (data.success && data.type==="userIsJoined") {
         console.log("userJoined");
       }
       else console.log("userJoined error");
@@ -34,8 +35,8 @@ function App() {
     <div className='container'>
       <div className="container">
         <Routes>
-          <Route path="/" element={<Form uuid={uuid} socket={socket} setUser={setUser} ></Form>}></Route>
-          <Route path="/:roomId" element={<Whiteboard socket={socket}></Whiteboard>}></Route>
+          <Route path="/" element={<Form uuid={uuid} ws={ws} setUser={setUser} ></Form>}></Route>
+          <Route path="/:roomId" element={<Whiteboard ws={ws}></Whiteboard>}></Route>
         </Routes>
       </div>
     </div>
