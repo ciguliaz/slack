@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import Whiteboard from './widgets/Whiteboard';
-import { Routes, Route } from 'react-router-dom';
-import Form from "./widgets/Form";
+import { Route, Routes } from 'react-router-dom';
 import io from 'socket.io-client';
+import Form from "./widgets/Form";
+import Whiteboard from './widgets/Whiteboard';
+
+
+//TODO: try to change this http connection with Railway internal connection
+//whiteboard-server.railway.internal
+//whiteboard-server
+
 const socket =
-  io('https://whiteboard-server.up.railway.app/');
-// io('localhost:4000/');
+  // io('https://whiteboard-server.up.railway.app/');
+io('http://localhost:4000/');
 function App() {
   const [user, setUser] = useState(null);
   useEffect(() => {
