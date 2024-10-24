@@ -1,7 +1,7 @@
 # Ứng dụng webside Không Gian Làm Việc Hợp Tác (Collaborative Workspace Web Application)
 ## Thành viên nhóm
-- **Nguyễn Thái Dương** - B21DCCN287
 - **Nguyễn Thế Mạnh** - B21DCCN812
+- **Nguyễn Thái Dương** - B21DCCN287
 - **Trần Tiến Đạt** - B21DCAT061
 ## Mô tả
 Một ứng dụng không gian làm việc hợp tác cho phép nhiều người dùng tham gia qua ID phiên làm việc. Người dùng có thể chia sẻ bảng vẽ trắng, chat, sử dụng các công cụ phát triển ý tưởng, chia sẻ màn hình và nhiều tính năng khác để thúc đẩy môi trường làm việc sáng tạo cho các đội nhóm và cá nhân.
