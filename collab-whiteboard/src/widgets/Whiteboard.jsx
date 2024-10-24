@@ -6,7 +6,7 @@ import { draw, drawPolyline } from '../utils/DrawingUtils';
 import './Whiteboard.css';
 
 
-function Whiteboard({socket}) {
+function Whiteboard({ws}) {
 	const canvasRef = useRef(null);
 	const [isDrawing, setIsDrawing] = useState(false);
 	const [color, setColor] = useState('#000000');
@@ -19,24 +19,24 @@ function Whiteboard({socket}) {
 		const context = canvas.getContext('2d');
 
 		// Listen for incoming drawing data from other users
-		socket.on('drawing', onDrawingEvent);
+		ws.onmessage('drawing', onDrawingEvent);
 
 		// Listen for the shape history from the server when a new user connects
-		socket.on('history', (shapes) => {
+		ws.onmessage('history', (shapes) => {
 			shapes.forEach((shape) => {
 				draw(context, shape.x0, shape.y0, shape.x1, shape.y1, shape.color, shape.lineWidth);
 			});
 		});
 
 		// Listen for 'clearCanvas' events from other users
-		socket.on('clearCanvas', () => {
+		ws.onmessage('clearCanvas', () => {
 			context.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas when receiving event
 		});
 
 		return () => {
-			socket.off('drawing', onDrawingEvent);
-			// socket.off('history');
-			socket.off('clearCanvas');
+			// ws.off('drawing', onDrawingEvent);
+			// // socket.off('history');
+			// ws.off('clearCanvas');
 		};
 	}, []);
 
@@ -81,7 +81,7 @@ function Whiteboard({socket}) {
 
 		if (tool === 'polyline') {
 			// draw(context, lastPos?.x || x, lastPos?.y || y, x, y, color, lineWidth);
-			drawPolyline(e, canvasRef, isDrawing, color, lineWidth, socket, lastPos, setLastPos);
+			drawPolyline(e, canvasRef, isDrawing, color, lineWidth, ws, lastPos, setLastPos);
 		} else if (tool === 'line') {
 			//TODO: drawLine(context, lastPos?.x || x, lastPos?.y || y, x, y, color, lineWidth);
 		} else if (tool === 'rectangle') {
@@ -91,7 +91,7 @@ function Whiteboard({socket}) {
 		}
 
 		// Emit the drawing data with the tool type
-		socket.emit('drawing', {
+		ws.send('drawing', {
 			x0: lastPos?.x || x,
 			y0: lastPos?.y || y,
 			x1: x,
@@ -111,7 +111,7 @@ function Whiteboard({socket}) {
 		context.clearRect(0, 0, canvas.width, canvas.height); // Clear entire canvas
 
 		// Optionally, you can emit this clear action to notify other users
-		socket.emit('clearCanvas');
+		ws.emit('clearCanvas');
 	};
 
 	return (
