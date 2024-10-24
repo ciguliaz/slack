@@ -16,7 +16,7 @@ const ws= new WebSocket('ws://localhost:4000');
 function App() {
   const [user, setUser] = useState(null);
   useEffect(() => {
-    ws.onmessage("userIsJoined", (data) => {
+    ws.onmessage((data) => {
       if (data.success && data.type==="userIsJoined") {
         console.log("userJoined");
       }
